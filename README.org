@@ -1,0 +1,10 @@
+* tab-bookmark.el - Use bookmarks to persist tabs
+
+#+html: <a href="https://www.gnu.org/software/emacs/"><img alt="GNU Emacs" src="https://github.com/minad/corfu/blob/screenshots/emacs.svg?raw=true"/></a>
+
+This package provides commands which allow storing the window configuration of
+the current tab as an Emacs bookmark. This way the view is automatically
+persisted and can be restored after restart.
+
+This package is a more capable variant of my [[https://github.com/minad/bookmark-view][bookmark-view]]. However it is
+assumes that you use =tab-bar-mode=.
