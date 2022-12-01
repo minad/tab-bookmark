@@ -114,7 +114,7 @@ The current buffer must not have a backing file."
   "Return top tab bookmark from stack.
 If EXISTING is nil generate a new name."
   (let* ((current (tab-bookmark--current-tab-name))
-         (regex (format "\\`#%s <\\([0-9]+\\)>\\'"
+         (regex (format "\\`@%s <\\([0-9]+\\)>\\'"
                         (regexp-quote current)))
          (idx 0))
     (dolist (name (tab-bookmark--names))
@@ -123,7 +123,7 @@ If EXISTING is nil generate a new name."
     (unless existing
       (setq idx (1+ idx)))
     (when (> idx 0)
-      (format "#%s <%s>" current idx))))
+      (format "@%s <%s>" current idx))))
 
 (defun tab-bookmark--read (prompt &optional default)
   "Prompting with PROMPT for bookmarked tab.
@@ -164,7 +164,7 @@ Return DEFAULT if user input is empty."
                 nil (not default) nil 'tab-bookmark-history default)))
     (if (string-prefix-p "#" name)
         (or (cdr (assoc name candidates)) name)
-      (format "#%s %s"
+      (format "@%s %s"
               (tab-bookmark--current-tab-name)
               (string-trim name)))))
 
@@ -195,7 +195,7 @@ Return DEFAULT if user input is empty."
               (setq bookmark-after-jump-hook (delq hook bookmark-after-jump-hook))
               (let ((name (bookmark-name-from-full-record bm)))
                 (tab-bookmark--put
-                 (if (string-match "\\`#\\([^ +]+\\)" name)
+                 (if (string-match "\\`@\\([^ +]+\\)" name)
                      (match-string 1 name)
                    name)
                  (bookmark-get-bookmark-record bm))))))
