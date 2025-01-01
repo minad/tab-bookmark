@@ -1,5 +1,7 @@
 ;;; tab-bookmark.el --- Tab bookmarks -*- lexical-binding: t -*-
 
+;; Copyright (C) 2022-2025 Daniel Mendler
+
 ;; Author: Daniel Mendler
 ;; Created: 2022
 ;; License: GPL-3.0-or-later
