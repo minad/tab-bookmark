@@ -134,7 +134,7 @@ Return DEFAULT if user input is empty."
          (candidates
           (cl-loop
            for name in (sort (tab-bookmark--names) #'string<)
-           for item = (if-let (pos (string-match-p " " name))
+           for item = (if-let* ((pos (string-match-p " " name)))
                           (list (substring name 0 pos)
                                 (string-trim (substring name pos))
                                 name)
