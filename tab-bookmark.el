@@ -1,13 +1,11 @@
 ;;; tab-bookmark.el --- Tab bookmarks -*- lexical-binding: t -*-
 
-;; Copyright (C) 2022-2026 Daniel Mendler
-
-;; Author: Daniel Mendler
+;; Author: Daniel Mendler <mail@daniel-mendler.de>
+;; Maintainer: Daniel Mendler <mail@daniel-mendler.de>
 ;; Created: 2022
-;; License: GPL-3.0-or-later
 ;; Version: 0.1
-;; Package-Requires: ((emacs "27.1"))
-;; Homepage: https://github.com/minad/tab-bookmark
+;; Package-Requires: ((emacs "28.1"))
+;; URL: https://github.com/minad/tab-bookmark
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -59,7 +57,7 @@ Return t if the current buffer is supposed to be bookmarked."
 (defun tab-bookmark--make-record ()
   "Return a new bookmark record for the current buffer.
 The current buffer must not have a backing file."
-  (if (and (not buffer-file-name)
+  (if (and (not (or buffer-file-name (and (boundp 'dired-directory) dired-directory)))
            (eq bookmark-make-record-function #'bookmark-make-record-default))
       `(,(bookmark-buffer-name)
         (buffer . ,(buffer-name))
@@ -154,13 +152,11 @@ Return DEFAULT if user input is empty."
                 (if default
                     (format "%s (default %s): " prompt default)
                   (format "%s: " prompt))
-                (lambda (str pred action)
-                  (if (eq action 'metadata)
-                      '(metadata
-                        (category . bookmark)
-                        (cycle-sort-function . identity)
-                        (display-sort-function . identity))
-                    (complete-with-action action candidates str pred)))
+                (completion-table-with-metadata
+                 candidates
+                 '((category . bookmark)
+                   (cycle-sort-function . identity)
+                   (display-sort-function . identity)))
                 nil (not default) nil 'tab-bookmark-history default)))
     (if (string-prefix-p "#" name)
         (or (cdr (assoc name candidates)) name)
